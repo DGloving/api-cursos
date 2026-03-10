@@ -7,11 +7,11 @@ from .permissions import IsInstructorOrReadOnly
 
 class CourseViewSet(viewsets.ModelViewSet):
     queryset = Course.objects.all()
-    serializer_class = CourseSerializer
+    serializer_class =  CourseSerializer
+    permission_classes = [IsInstructorOrReadOnly]
 
     def perform_create(self, serializer):
         serializer.save(instructor=self.request.user)
-
 
 class LessonViewSet(viewsets.ModelViewSet):
     queryset = Lesson.objects.all()
@@ -27,10 +27,3 @@ class EnrollmentViewSet(viewsets.ModelViewSet):
         serializer.save(student=self.request.user)
 
 
-class CourseViewSet(viewsets.ModelViewSet):
-    queryset = Course.objects.all()
-    serializer_class =  CourseSerializer
-    permission_classes = [IsInstructorOrReadOnly]
-
-    def perform_create(self, serializer):
-        serializer.save(instructor=self.request.user)
